@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lolu's Map ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:ital,wght@0,300;0,400;0,500;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink-deep:    #C2185B;
+  --pink-main:    #E91E8C;
+  --pink-soft:    #F48FB1;
+  --pink-pale:    #FCE4EC;
+  --pink-blush:   #FFF0F5;
+  --pink-muted:   #F8BBD9;
+  --peach:        #FFD6CC;
+  --peach-light:  #FFF3EF;
+  --lavender:     #E8D5F5;
+  --lavender-d:   #9C27B0;
+  --mint:         #C8F5E8;
+  --mint-d:       #00796B;
+  --gold:         #FFB300;
+  --gold-light:   #FFF8E1;
+  --sky:          #E3F2FD;
+  --sky-d:        #1565C0;
+  --ink:          #3D1A2F;
+  --ink-soft:     #6D3A52;
+  --ink-muted:    #A07090;
+  --white:        #FFFAFB;
+  --radius:       20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--pink-blush);
+  font-family: 'Nunito', sans-serif;
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── FLOATING BACKGROUND SHAPES ── */
+.bg-shapes {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-shapes span {
+  position: absolute; border-radius: 50%;
+  opacity: 0.07; animation: drift linear infinite;
+}
+.bg-shapes span:nth-child(1) { width:300px;height:300px;background:var(--pink-main);top:-80px;left:-60px;animation-duration:20s; }
+.bg-shapes span:nth-child(2) { width:200px;height:200px;background:var(--lavender-d);top:30%;right:-50px;animation-duration:25s;animation-delay:-8s; }
+.bg-shapes span:nth-child(3) { width:160px;height:160px;background:var(--gold);bottom:20%;left:5%;animation-duration:18s;animation-delay:-4s; }
+.bg-shapes span:nth-child(4) { width:240px;height:240px;background:var(--pink-deep);bottom:-60px;right:10%;animation-duration:22s;animation-delay:-12s; }
+@keyframes drift { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-30px) scale(1.05)} }
+
+/* ── HEARTS CONFETTI ── */
+.hearts { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.heart-p {
+  position: absolute; animation: fallDown linear infinite;
+  opacity: 0; font-size: 16px; user-select: none;
+}
+@keyframes fallDown {
+  0%   { opacity: 0; transform: translateY(-20px) rotate(0deg); }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(105vh) rotate(360deg); }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 2;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 60px 24px;
+  background: linear-gradient(160deg, #FFF0F8 0%, #FCE4EC 40%, #F8D7EA 100%);
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--pink-blush));
+}
+.hero-sticker {
+  font-size: 72px; margin-bottom: 16px;
+  animation: wobble 2.5s ease-in-out infinite;
+  display: block;
+}
+@keyframes wobble { 0%,100%{transform:rotate(-5deg) scale(1)} 50%{transform:rotate(5deg) scale(1.08)} }
+
+.hero-tag {
+  display: inline-block;
+  background: white; color: var(--pink-deep);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; padding: 6px 18px;
+  border-radius: 100px; border: 2px solid var(--pink-muted);
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(48px, 10vw, 88px);
+  line-height: 1.05;
+  color: var(--pink-deep);
+  text-shadow: 4px 4px 0 rgba(194,24,91,0.12);
+  margin-bottom: 8px;
+}
+.hero h1 .name {
+  display: block;
+  background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero .sub {
+  font-size: clamp(16px, 3vw, 20px);
+  color: var(--ink-soft); font-weight: 400; font-style: italic;
+  max-width: 440px; margin: 0 auto 36px;
+  line-height: 1.6;
+}
+.hero .sub strong { font-style: normal; font-weight: 700; color: var(--pink-deep); }
+
+.hero-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
+  color: white; font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: 16px; padding: 14px 32px; border-radius: 100px;
+  border: none; cursor: pointer;
+  box-shadow: 0 6px 24px rgba(233,30,140,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+.hero-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(233,30,140,0.45); }
+
+/* floating petals around hero */
+.petal {
+  position: absolute; opacity: 0.15;
+  font-size: 28px; pointer-events: none;
+  animation: petalFloat ease-in-out infinite;
+}
+@keyframes petalFloat { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(20deg)} }
+
+/* ── SECTION COMMON ── */
+.section { position: relative; z-index: 2; padding: 80px 24px; max-width: 860px; margin: 0 auto; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: white; border: 2px solid var(--pink-muted);
+  color: var(--pink-deep); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 5px 16px; border-radius: 100px; margin-bottom: 20px;
+}
+.section-label .emoji { font-size: 14px; }
+
+h2.section-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(32px, 6vw, 52px);
+  color: var(--ink); line-height: 1.1; margin-bottom: 10px;
+}
+h2.section-title .accent { color: var(--pink-main); }
+.section-sub { font-size: 17px; color: var(--ink-muted); max-width: 500px; font-weight: 400; line-height: 1.6; margin-bottom: 48px; }
+
+/* ── POINT A CARDS ── */
+.point-a-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.pa-card {
+  background: white; border-radius: 24px;
+  padding: 28px 22px;
+  border: 2px solid transparent;
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative; overflow: hidden;
+}
+.pa-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  border-radius: 4px 4px 0 0;
+}
+.pa-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(194,24,91,0.12); }
+.pa-card.c1 { border-color: var(--mint); } .pa-card.c1::before { background: var(--mint-d); }
+.pa-card.c2 { border-color: var(--lavender); } .pa-card.c2::before { background: var(--lavender-d); }
+.pa-card.c3 { border-color: var(--peach); } .pa-card.c3::before { background: var(--gold); }
+.pa-card.c4 { border-color: var(--pink-muted); } .pa-card.c4::before { background: var(--pink-main); }
+.pa-card .icon { font-size: 32px; margin-bottom: 12px; display: block; }
+.pa-card h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted); margin-bottom: 8px; }
+.pa-card p { font-size: 15px; color: var(--ink-soft); line-height: 1.5; }
+
+/* ── SECRET MESSAGE CARD ── */
+.secret-card {
+  margin-top: 32px;
+  background: linear-gradient(135deg, #FFF0F8, #FCE8F3);
+  border: 2px dashed var(--pink-soft);
+  border-radius: 24px; padding: 32px 28px;
+  display: flex; align-items: flex-start; gap: 18px;
+  position: relative; overflow: hidden;
+}
+.secret-card::after {
+  content: '💌';
+  position: absolute; right: 20px; bottom: 16px;
+  font-size: 48px; opacity: 0.12;
+}
+.secret-icon { font-size: 36px; flex-shrink: 0; }
+.secret-card h3 { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--pink-deep); margin-bottom: 8px; }
+.secret-card p { font-size: 15px; color: var(--ink-soft); line-height: 1.7; }
+.secret-card p em { color: var(--pink-deep); font-style: normal; font-weight: 700; }
+
+/* ── PATH CHOOSER ── */
+.path-chooser {
+  display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px;
+}
+.path-btn {
+  flex: 1; min-width: 200px;
+  background: white; border: 2px solid var(--pink-muted);
+  border-radius: 20px; padding: 20px 18px;
+  cursor: pointer; font-family: 'Nunito', sans-serif;
+  text-align: left; transition: all 0.25s ease;
+  position: relative; overflow: hidden;
+}
+.path-btn::before {
+  content: ''; position: absolute; inset: 0; opacity: 0;
+  transition: opacity 0.25s;
+}
+.path-btn.pb1::before { background: linear-gradient(135deg, var(--mint), var(--sky)); }
+.path-btn.pb2::before { background: linear-gradient(135deg, var(--gold-light), var(--peach)); }
+.path-btn.pb3::before { background: linear-gradient(135deg, var(--lavender), #F3E8FF); }
+.path-btn:hover::before, .path-btn.sel::before { opacity: 1; }
+.path-btn > * { position: relative; z-index: 1; }
+.path-btn .pb-emoji { font-size: 32px; display: block; margin-bottom: 10px; }
+.path-btn .pb-code { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 4px; }
+.path-btn .pb-name { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--ink); line-height: 1.2; }
+.path-btn .pb-desc { font-size: 13px; color: var(--ink-muted); margin-top: 6px; }
+.path-btn.sel { border-width: 3px; transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.path-btn.sel.pb1 { border-color: var(--mint-d); }
+.path-btn.sel.pb2 { border-color: var(--gold); }
+.path-btn.sel.pb3 { border-color: var(--lavender-d); }
+
+/* ── ROADMAP VISUAL ── */
+.roadmap-container {
+  position: relative; min-height: 200px;
+}
+.road-panel { display: none; }
+.road-panel.active { display: block; }
+
+/* WINDING ROAD SVG */
+.road-svg-wrap {
+  width: 100%; overflow: visible;
+  margin: 0 auto;
+}
+
+/* LEVELS */
+.levels-track {
+  display: flex; flex-direction: column; gap: 0;
+  position: relative; padding-bottom: 20px;
+}
+
+/* connector line */
+.levels-track::before {
+  content: ''; position: absolute;
+  left: 40px; top: 24px; bottom: 24px;
+  width: 4px; border-radius: 4px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--pink-muted) 0, var(--pink-muted) 10px,
+    transparent 10px, transparent 20px
+  );
+}
+
+.level {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 0 0 32px 0;
+  position: relative;
+  opacity: 0; transform: translateX(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.level.visible { opacity: 1; transform: none; }
+
+/* flag / node */
+.level-node {
+  width: 80px; height: 80px; flex-shrink: 0;
+  border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; z-index: 2;
+  font-size: 28px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border: 4px solid white;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.level-node:hover { transform: scale(1.12) rotate(-5deg); }
+
+.level-node .lv-num {
+  font-family: 'Fredoka One', cursive;
+  font-size: 10px; letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* milestone glow */
+.level.milestone .level-node {
+  width: 96px; height: 96px; font-size: 36px;
+  box-shadow: 0 0 0 6px rgba(233,30,140,0.15), 0 6px 24px rgba(0,0,0,0.15);
+}
+
+.level-body {
+  flex: 1; background: white; border-radius: 20px;
+  padding: 22px 24px; margin-top: 12px;
+  border: 2px solid rgba(0,0,0,0.06);
+  transition: box-shadow 0.25s;
+  position: relative;
+}
+.level-body::before {
+  content: '';
+  position: absolute; left: -14px; top: 20px;
+  width: 0; height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 14px solid white;
+}
+.level-body:hover { box-shadow: 0 8px 28px rgba(194,24,91,0.1); }
+
+.level-time {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.level-body h4 { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+.level-body p { font-size: 14px; color: var(--ink-soft); line-height: 1.65; }
+.level-body ul { padding-left: 18px; font-size: 14px; color: var(--ink-soft); line-height: 1.8; margin-top: 8px; }
+
+/* node colours per path */
+.n-b1 .level-node { background: linear-gradient(135deg, #B2DFDB, #00BCD4); }
+.n-b1 .level-time { color: var(--mint-d); }
+.n-b2 .level-node { background: linear-gradient(135deg, #FFE082, #FF8F00); }
+.n-b2 .level-time { color: #E65100; }
+.n-b3 .level-node { background: linear-gradient(135deg, #CE93D8, #7B1FA2); }
+.n-b3 .level-time { color: var(--lavender-d); }
+
+/* milestone special */
+.level.milestone .level-body {
+  background: linear-gradient(135deg, #FFF0F8, #FCE4EC);
+  border-color: var(--pink-muted);
+}
+
+/* flag decoration */
+.flag-wrap {
+  position: relative; display: inline-flex;
+  align-items: center; gap: 6px;
+  margin-bottom: 8px;
+}
+.flag-icon { font-size: 18px; }
+
+/* ── BRANCHES (B3) ── */
+.branches { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+.branch {
+  border-radius: 14px; padding: 16px 18px;
+  display: flex; align-items: flex-start; gap: 12px;
+  border: 2px solid transparent;
+}
+.branch .b-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.branch h5 { font-family: 'Fredoka One', cursive; font-size: 16px; margin-bottom: 4px; }
+.branch p { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+.branch.br1 { background: var(--mint); border-color: var(--mint-d); }
+.branch.br1 h5 { color: var(--mint-d); }
+.branch.br2 { background: var(--sky); border-color: var(--sky-d); }
+.branch.br2 h5 { color: var(--sky-d); }
+.branch.br3 { background: var(--lavender); border-color: var(--lavender-d); }
+.branch.br3 h5 { color: var(--lavender-d); }
+
+/* ── PROGRESS BAR ── */
+.progress-section {
+  background: white; border-radius: 28px;
+  padding: 32px 28px; margin-bottom: 32px;
+  border: 2px solid var(--pink-muted);
+  display: none;
+}
+.progress-section.show { display: block; }
+.prog-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.prog-header h3 { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--ink); }
+.prog-pct { font-family: 'Fredoka One', cursive; font-size: 28px; color: var(--pink-main); }
+.prog-track {
+  height: 14px; background: var(--pink-pale); border-radius: 100px; overflow: hidden;
+  margin-bottom: 10px;
+}
+.prog-fill {
+  height: 100%; border-radius: 100px; width: 0%;
+  background: linear-gradient(90deg, var(--pink-soft), var(--pink-main));
+  transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.prog-note { font-size: 13px; color: var(--ink-muted); font-style: italic; }
+
+/* ── LETTER / OUTRO ── */
+.letter-section {
+  position: relative; z-index: 2;
+  background: linear-gradient(160deg, #FCE4EC, #F8BBD9 50%, #F48FB1);
+  padding: 80px 24px 100px;
+  text-align: center; overflow: hidden;
+}
+.letter-section::before {
+  content: '💕'; font-size: 200px; opacity: 0.06;
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.letter-inner { max-width: 620px; margin: 0 auto; position: relative; z-index: 1; }
+.letter-emoji { font-size: 56px; margin-bottom: 20px; display: block; animation: wobble 3s ease-in-out infinite; }
+.letter-section h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(32px, 7vw, 60px);
+  color: var(--pink-deep); margin-bottom: 20px;
+  line-height: 1.1;
+}
+.letter-box {
+  background: white; border-radius: 24px;
+  padding: 36px 32px; margin: 28px auto;
+  border: 3px solid var(--pink-muted);
+  text-align: left; max-width: 540px;
+  box-shadow: 0 12px 40px rgba(194,24,91,0.12);
+  position: relative;
+}
+.letter-box::after { content: '🌸'; position: absolute; top: 16px; right: 20px; font-size: 24px; }
+.letter-box .greeting {
+  font-family: 'Nunito', sans-serif; font-style: italic;
+  font-size: 18px; color: var(--pink-deep); margin-bottom: 16px; font-weight: 600;
+}
+.letter-box p { font-size: 15px; color: var(--ink-soft); line-height: 1.8; margin-bottom: 12px; }
+.letter-box p em { color: var(--pink-deep); font-style: normal; font-weight: 700; }
+.letter-box .sign { font-family: 'Nunito', sans-serif; font-style: italic; font-size: 17px; color: var(--pink-deep); margin-top: 20px; font-weight: 600; }
+
+/* ── SPARKLE BUTTON ── */
+.sparkle-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: white; color: var(--pink-deep);
+  font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: 15px; padding: 13px 28px; border-radius: 100px;
+  border: 3px solid var(--pink-deep); cursor: pointer;
+  transition: all 0.2s; margin-top: 8px;
+}
+.sparkle-btn:hover { background: var(--pink-deep); color: white; transform: scale(1.05); }
+
+/* ── POPUP TOAST ── */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--pink-deep); color: white;
+  padding: 14px 28px; border-radius: 100px;
+  font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px;
+  box-shadow: 0 8px 24px rgba(194,24,91,0.4);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1000; pointer-events: none; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── STAR RATING SECTION ── */
+.mood-section {
+  background: white; border-radius: 28px; padding: 32px 28px;
+  border: 2px solid var(--pink-muted); margin-top: 32px;
+  text-align: center;
+}
+.mood-section h3 { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--ink); margin-bottom: 8px; }
+.mood-section p { font-size: 14px; color: var(--ink-muted); margin-bottom: 20px; }
+.mood-stars { display: flex; justify-content: center; gap: 12px; }
+.mood-star {
+  font-size: 36px; cursor: pointer;
+  transition: transform 0.2s;
+  filter: grayscale(1) opacity(0.4);
+}
+.mood-star:hover, .mood-star.lit { filter: none; transform: scale(1.3) rotate(-10deg); }
+.mood-msg { margin-top: 16px; font-size: 15px; color: var(--pink-deep); font-weight: 600; font-style: italic; min-height: 24px; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--pink-blush); }
+::-webkit-scrollbar-thumb { background: var(--pink-soft); border-radius: 10px; }
+
+@media (max-width: 600px) {
+  .levels-track::before { left: 32px; }
+  .level-node { width: 64px; height: 64px; font-size: 22px; }
+  .level.milestone .level-node { width: 76px; height: 76px; }
+  .path-btn { min-width: 160px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <span></span><span></span><span></span><span></span>
+</div>
+<div class="hearts" id="hearts"></div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<div class="hero">
+  <div class="petal" style="top:10%;left:8%;animation-duration:4s;">🌸</div>
+  <div class="petal" style="top:20%;right:10%;animation-duration:5s;animation-delay:-1s;">✨</div>
+  <div class="petal" style="bottom:25%;left:6%;animation-duration:3.5s;animation-delay:-2s;">🌷</div>
+  <div class="petal" style="bottom:20%;right:8%;animation-duration:4.5s;animation-delay:-0.5s;">💫</div>
+  <div class="petal" style="top:50%;left:3%;animation-duration:6s;animation-delay:-1.5s;">🌹</div>
+
+  <div class="hero-tag">✨ Made especially for Lolu ✨</div>
+  <span class="hero-sticker">🗺️</span>
+  <h1>
+    Hey,<br>
+    <span class="name">my Lolu.</span>
+  </h1>
+  <p class="sub">You're not lost — you just haven't seen your map yet.<br><strong>This is it.</strong> Your adventure is about to make sense. 💕</p>
+  <a href="#point-a" class="hero-btn">Show me my map 🌟</a>
+</div>
+
+<!-- ══════════════ POINT A ══════════════ -->
+<div id="point-a" class="section">
+  <div class="section-label"><span class="emoji">📍</span> Starting point</div>
+  <h2 class="section-title">This is <span class="accent">where you are,</span><br>right now.</h2>
+  <p class="section-sub">Three months at your dream company. Let's look at that honestly — and lovingly.</p>
+
+  <div class="point-a-grid">
+    <div class="pa-card c1">
+      <span class="icon">🏢</span>
+      <h3>What you have</h3>
+      <p>You are <strong>inside your dream company</strong>. Most people never get this far. That's not nothing — that's everything.</p>
+    </div>
+    <div class="pa-card c2">
+      <span class="icon">🧠</span>
+      <h3>What you're gaining</h3>
+      <p>Real experience. Company culture. An internal network. You're learning things no course can teach.</p>
+    </div>
+    <div class="pa-card c3">
+      <span class="icon">🎧</span>
+      <h3>Your current role</h3>
+      <p><strong>Customer Service.</strong> You understand users like engineers never will. That is a superpower, Lolu.</p>
+    </div>
+    <div class="pa-card c4">
+      <span class="icon">💭</span>
+      <h3>The hard feeling</h3>
+      <p>Comparing yourself to your friends. Feeling behind. You're not on a lower road — you're on a <strong>different one.</strong></p>
+    </div>
+  </div>
+
+  <div class="secret-card">
+    <div class="secret-icon">💌</div>
+    <div>
+      <h3>A little note from your person</h3>
+      <p>The engineers around you? They don't know what users actually feel. You do. The day you walk into engineering — and you will — you will be the one person in the room who truly understands both sides. <em>That is rare. That is you.</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PATH SECTION ══════════════ -->
+<div id="paths" class="section">
+  <div class="section-label"><span class="emoji">🧭</span> Your destinations</div>
+  <h2 class="section-title">Now pick your <span class="accent">dream,</span><br>Lolu. 🌟</h2>
+  <p class="section-sub">Three paths, all valid, all yours. Tap one and watch your roadmap appear.</p>
+
+  <div class="path-chooser">
+    <button class="path-btn pb1" id="btn-b1" onclick="selectPath('b1')">
+      <span class="pb-emoji">🔧</span>
+      <div class="pb-code">Path B1</div>
+      <div class="pb-name">Engineer<br>at this company</div>
+      <div class="pb-desc">Move into engineering from the inside</div>
+    </button>
+    <button class="path-btn pb2" id="btn-b2" onclick="selectPath('b2')">
+      <span class="pb-emoji">💼</span>
+      <div class="pb-code">Path B2</div>
+      <div class="pb-name">Level up,<br>move on</div>
+      <div class="pb-desc">Build experience, then earn more elsewhere</div>
+    </button>
+    <button class="path-btn pb3" id="btn-b3" onclick="selectPath('b3')">
+      <span class="pb-emoji">🎓</span>
+      <div class="pb-code">Path B3</div>
+      <div class="pb-name">Masters<br>abroad ✈️</div>
+      <div class="pb-desc">The biggest adventure — infinite branches</div>
+    </button>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-section" id="prog-section">
+    <div class="prog-header">
+      <h3 id="prog-title">You're here</h3>
+      <span class="prog-pct" id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="prog-note" id="prog-note">You're at the very start — which means everything is still ahead 🌸</div>
+  </div>
+
+  <!-- ─── ROADMAP ─── -->
+  <div class="roadmap-container" id="roadmap">
+
+    <!-- B1 -->
+    <div class="road-panel" id="road-b1">
+      <div class="levels-track" id="levels-b1">
+
+        <div class="level n-b1">
+          <div class="level-node">🌱<div class="lv-num">START</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Right now</span></div>
+            <h4>You are HERE, Lolu</h4>
+            <p>Month 3 at your dream company. Customer Service role. This is your launchpad — not your destination.</p>
+          </div>
+        </div>
+
+        <div class="level n-b1">
+          <div class="level-node">⭐<div class="lv-num">LV 1</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Now → Month 3</span></div>
+            <h4>Become exceptional at your current role</h4>
+            <p>Don't rush to escape. Be the person they brag about on the team. This earns trust — and trust is currency in any company.</p>
+          </div>
+        </div>
+
+        <div class="level n-b1">
+          <div class="level-node">💻<div class="lv-num">LV 2</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Month 1 → ongoing</span></div>
+            <h4>Start learning their tech stack on the side</h4>
+            <ul>
+              <li>Find out what languages/tools the engineering team uses</li>
+              <li>Start small: freeCodeCamp, The Odin Project, or a targeted Udemy course</li>
+              <li>Make tiny projects → push to GitHub → let people see your curiosity</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="level n-b1">
+          <div class="level-node">🤝<div class="lv-num">LV 3</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Month 3 → 6</span></div>
+            <h4>Build bridges with the engineering team</h4>
+            <p>You already work in the same building (or Slack!). Volunteer on user-facing tech issues. Ask questions. Show curiosity — not ambition. Let them see you.</p>
+          </div>
+        </div>
+
+        <div class="level n-b1 milestone">
+          <div class="level-node">💬<div class="lv-num">BOSS</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Month 6 — BIG MOMENT</span></div>
+            <h4>The career conversation 🌟</h4>
+            <p>Tell your manager your goal. Say exactly: <em>"I love this company and want to grow into an engineering role. What would that path look like for me?"</em><br><br>Most companies <strong>love</strong> to promote from within. You are not asking for a favour — you are giving them a chance to keep you.</p>
+          </div>
+        </div>
+
+        <div class="level n-b1">
+          <div class="level-node">🔬<div class="lv-num">LV 4</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Month 6 → 12</span></div>
+            <h4>Bridge the gap formally</h4>
+            <ul>
+              <li>Shadow the engineering team when possible</li>
+              <li>Offer to help on internal tools — even tiny bug fixes count</li>
+              <li>Check if your company has an internal transfer policy</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="level n-b1 milestone">
+          <div class="level-node">🏆<div class="lv-num">WIN</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Month 12–18 — DESTINATION</span></div>
+            <h4>Apply for the engineering role 🎉</h4>
+            <p>You now have: <strong>company trust</strong>, <strong>user empathy</strong>, <strong>technical skills</strong>, and an internal champion. You are a stronger candidate than any outside hire. Apply with your head held high.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- B2 -->
+    <div class="road-panel" id="road-b2">
+      <div class="levels-track" id="levels-b2">
+
+        <div class="level n-b2">
+          <div class="level-node">🌱<div class="lv-num">START</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Right now</span></div>
+            <h4>You are HERE, Lolu</h4>
+            <p>Month 3, dream company, customer service. Here's the secret: <strong>this company is your university, and you're getting paid to study.</strong></p>
+          </div>
+        </div>
+
+        <div class="level n-b2">
+          <div class="level-node">📝<div class="lv-num">LV 1</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Now → Month 6</span></div>
+            <h4>Document every win, big and small</h4>
+            <ul>
+              <li>Track how many customers you helped, what problems you solved</li>
+              <li>Note any process you improved, however minor</li>
+              <li>Volunteer for cross-functional work that looks great on a CV</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="level n-b2">
+          <div class="level-node">🎯<div class="lv-num">LV 2</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Month 3 → 12</span></div>
+            <h4>Pick a specialisation and own it</h4>
+            <p>Technical Support, Customer Success, CX Operations — pick the lane that excites you most and become the person others come to. Specialists get paid more than generalists.</p>
+          </div>
+        </div>
+
+        <div class="level n-b2">
+          <div class="level-node">🌐<div class="lv-num">LV 3</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Month 6 → 12</span></div>
+            <h4>Build your external presence quietly</h4>
+            <ul>
+              <li>Update LinkedIn as your skills grow — every quarter</li>
+              <li>Connect with people at companies you admire (to learn, not to job hunt yet)</li>
+              <li>Research salary benchmarks for your level at target companies</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="level n-b2 milestone">
+          <div class="level-node">🔍<div class="lv-num">BOSS</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Month 18 — BIG MOMENT</span></div>
+            <h4>Start exploring from a position of strength</h4>
+            <p>With 1.5 years at a named company, your CV is now competitive. Begin applying to roles <strong>one level above</strong> what you hold now. You're not running away — you're moving up with intention.</p>
+          </div>
+        </div>
+
+        <div class="level n-b2 milestone">
+          <div class="level-node">💸<div class="lv-num">WIN</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Month 24–36 — DESTINATION</span></div>
+            <h4>Move on your terms 🎉</h4>
+            <p>You leave when you have an offer that is <strong>clearly better</strong> — not out of frustration. You will have leverage: a track record, strong references, and real skills. The pay difference between junior and senior in this field? It can be <strong>2–3x.</strong></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- B3 -->
+    <div class="road-panel" id="road-b3">
+      <div class="levels-track" id="levels-b3">
+
+        <div class="level n-b3">
+          <div class="level-node">🌱<div class="lv-num">START</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Right now</span></div>
+            <h4>You are HERE, Lolu</h4>
+            <p>Month 3, dream company. The biggest adventure path is also the longest — but it opens the most doors you can't even imagine yet.</p>
+          </div>
+        </div>
+
+        <div class="level n-b3">
+          <div class="level-node">🏢<div class="lv-num">LV 1</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Now → Month 12</span></div>
+            <h4>Use this job as your foundation</h4>
+            <p>Get 1–2 years of real experience first. Strong masters programs in CS/Engineering <strong>specifically prefer</strong> applicants with work experience. You will stand out among fresh graduates.</p>
+          </div>
+        </div>
+
+        <div class="level n-b3">
+          <div class="level-node">📚<div class="lv-num">LV 2</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Month 6 → 18</span></div>
+            <h4>Research & prepare in parallel</h4>
+            <ul>
+              <li>Target countries: Germany (often free!), UK, Canada, Netherlands, USA</li>
+              <li>Shortlist 5–8 programs: CS, Software Engineering, HCI, Data Science</li>
+              <li>Check prereqs: GRE? IELTS/TOEFL? Portfolio? Statement of Purpose?</li>
+              <li>Start your Statement of Purpose early — it takes months to write well</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="level n-b3">
+          <div class="level-node">✍️<div class="lv-num">LV 3</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🏁</span><span class="level-time">Month 12 → 18</span></div>
+            <h4>Apply — the good applications take time</h4>
+            <ul>
+              <li>Secure strong recommendation letters (your manager here = powerful)</li>
+              <li>Your customer service experience is an asset — real product impact</li>
+              <li>Apply broadly: safety schools + dream schools</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="level n-b3 milestone">
+          <div class="level-node">✈️<div class="lv-num">BOSS</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">Year 2–3 — BIG MOMENT</span></div>
+            <h4>The masters — a whole new world 🌍</h4>
+            <p>You'll be in a new country, surrounded by people building the future. The network you make here will be some of the most valuable of your life. Many students get job offers through internships before graduation.</p>
+          </div>
+        </div>
+
+        <div class="level n-b3 milestone">
+          <div class="level-node">🌟<div class="lv-num">WIN</div></div>
+          <div class="level-body">
+            <div class="flag-wrap"><span class="flag-icon">🚩</span><span class="level-time">After graduation — YOUR CHOICE</span></div>
+            <h4>Three doors open, Lolu — you pick 🎉</h4>
+            <div class="branches">
+              <div class="branch br1">
+                <div class="b-icon">🔧</div>
+                <div>
+                  <h5>→ Return &amp; Engineer here</h5>
+                  <p>Come back to your current company as a masters graduate. They know you, they trust you — you'll be a senior hire, not a junior one.</p>
+                </div>
+              </div>
+              <div class="branch br2">
+                <div class="b-icon">🌏</div>
+                <div>
+                  <h5>→ Stay &amp; build abroad</h5>
+                  <p>Use post-study work permits (OPT/PSW/etc.) to start your career internationally. Higher pay, global experience, a brand-new chapter.</p>
+                </div>
+              </div>
+              <div class="branch br3">
+                <div class="b-icon">🔬</div>
+                <div>
+                  <h5>→ Go for the PhD</h5>
+                  <p>If your masters sparks a research fire — keep going. Funded programs exist in Europe. Research roles, faculty tracks, or senior scientist paths await.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- end roadmap -->
+
+  <!-- Mood check -->
+  <div class="mood-section" id="mood-section" style="display:none;">
+    <h3>How do you feel about this path? 💕</h3>
+    <p>Tap a star — just between us</p>
+    <div class="mood-stars">
+      <span class="mood-star" data-v="1" onclick="rateMood(1)">😐</span>
+      <span class="mood-star" data-v="2" onclick="rateMood(2)">🙂</span>
+      <span class="mood-star" data-v="3" onclick="rateMood(3)">😊</span>
+      <span class="mood-star" data-v="4" onclick="rateMood(4)">😍</span>
+      <span class="mood-star" data-v="5" onclick="rateMood(5)">🥰</span>
+    </div>
+    <div class="mood-msg" id="mood-msg"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════ LETTER ══════════════ -->
+<div class="letter-section">
+  <div class="letter-inner">
+    <span class="letter-emoji">💌</span>
+    <h2>One last thing,<br>my Lolu.</h2>
+
+    <div class="letter-box">
+      <div class="greeting">Dear Lolu,</div>
+      <p>I know it stings to see your friends in the engineering team and feel like you're somewhere lesser. But here's what I need you to hear:</p>
+      <p>You are not behind. You are not less. You got into the same dream company they did — through a different door, but you're in the same building.</p>
+      <p>Every single person who ever built something great had a "month three" where they felt exactly what you feel right now. <em>Every single one.</em></p>
+      <p>This map isn't a plan I made for you. It's the plan your own future is waiting for you to say yes to. You just had to see it laid out.</p>
+      <p>I believe in you more than you believe in yourself right now. And that's okay — that's what I'm here for.</p>
+      <div class="sign">With all my heart 💕<br>— Your person</div>
+    </div>
+
+    <button class="sparkle-btn" onclick="sendHearts()">Send her hearts ✨</button>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">💕 Sending love to my Lolu! 💕</div>
+
+<script>
+// ── HEARTS RAIN ──
+(function(){
+  const c = document.getElementById('hearts');
+  const emojis = ['💕','🌸','✨','💖','🌷','💗','⭐','🌟','💓','🦋'];
+  for(let i=0;i<18;i++){
+    const h = document.createElement('span');
+    h.className = 'heart-p';
+    h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    h.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-duration:${8+Math.random()*10}s;
+      animation-delay:${-Math.random()*15}s;
+      font-size:${10+Math.random()*16}px;
+    `;
+    c.appendChild(h);
+  }
+})();
+
+// ── PATH SELECT ──
+const paths = {
+  b1: {
+    title: "Path B1 — Engineer at this company",
+    pct: 10,
+    note: "You're at the very start — and you're already ahead of everyone who never tried 🌸",
+    color: "#00796B"
+  },
+  b2: {
+    title: "Path B2 — Level up, move on",
+    pct: 10,
+    note: "This company is your springboard — use it well 💛",
+    color: "#E65100"
+  },
+  b3: {
+    title: "Path B3 — Masters & beyond",
+    pct: 5,
+    note: "The longest road, but every door at the end is incredible 💜",
+    color: "#7B1FA2"
+  }
+};
+
+let currentPath = null;
+
+function selectPath(id){
+  // Buttons
+  document.querySelectorAll('.path-btn').forEach(b => b.classList.remove('sel'));
+  document.getElementById('btn-'+id).classList.add('sel');
+
+  // Panels
+  document.querySelectorAll('.road-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('road-'+id).classList.add('active');
+
+  // Progress
+  const ps = document.getElementById('prog-section');
+  ps.classList.add('show');
+  document.getElementById('prog-title').textContent = paths[id].title;
+  document.getElementById('prog-note').textContent = paths[id].note;
+  const pct = paths[id].pct;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-pct').style.color = paths[id].color;
+  setTimeout(() => {
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-fill').style.background =
+      `linear-gradient(90deg, var(--pink-soft), ${paths[id].color})`;
+  }, 80);
+
+  // Mood
+  document.getElementById('mood-section').style.display = 'block';
+  document.getElementById('mood-msg').textContent = '';
+  document.querySelectorAll('.mood-star').forEach(s => s.classList.remove('lit'));
+
+  currentPath = id;
+
+  // Animate levels
+  const lvls = document.querySelectorAll('#levels-'+id+' .level');
+  lvls.forEach((l,i) => {
+    l.classList.remove('visible');
+    setTimeout(() => l.classList.add('visible'), 80 + i*90);
+  });
+
+  // Scroll
+  setTimeout(() => {
+    document.getElementById('roadmap').scrollIntoView({behavior:'smooth', block:'start'});
+  }, 150);
+
+  showToast('Path ' + id.toUpperCase() + ' unlocked! 🗝️');
+}
+
+// ── MOOD ──
+const moodMsgs = [
+  '', // 0 unused
+  "That's okay — every path feels uncertain at first 🌱",
+  "You're warming up to it! That counts 💛",
+  "You can already picture it, can't you? 🌸",
+  "Lolu is GLOWING reading this 💖",
+  "THIS IS THE ONE!! Your eyes lit up 🥰✨"
+];
+function rateMood(v){
+  document.querySelectorAll('.mood-star').forEach((s,i) => {
+    s.classList.toggle('lit', i < v);
+  });
+  document.getElementById('mood-msg').textContent = moodMsgs[v];
+}
+
+// ── TOAST ──
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── HEARTS BURST ──
+function sendHearts(){
+  showToast('💕 Love sent! 💕');
+  const burst = ['💖','💕','🌸','✨','🌷','💗','💓','🦋','⭐','🌟'];
+  for(let i=0;i<24;i++){
+    const h = document.createElement('div');
+    h.textContent = burst[Math.floor(Math.random()*burst.length)];
+    h.style.cssText = `
+      position:fixed;
+      left:${Math.random()*100}vw;
+      top:${40+Math.random()*40}vh;
+      font-size:${20+Math.random()*28}px;
+      pointer-events:none;
+      z-index:9999;
+      animation: fallDown ${1.5+Math.random()*2}s ease-out forwards;
+      opacity:0;
+    `;
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 4000);
+  }
+}
+
+// Auto-select B1 on load
+window.addEventListener('load', () => {
+  setTimeout(() => selectPath('b1'), 600);
+});
+</script>
+
+</body>
+</html>
